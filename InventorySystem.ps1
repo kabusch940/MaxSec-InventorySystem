@@ -1,8 +1,16 @@
 ## Check JSON Inventory List
 
+$inventoryObject = @{
+    "fileServers" = $fileServers;
+    "dbServers" = $dbServers; 
+    "DCs" = $DCs;
+    "unclassifiedServers" = $unclassifiedServers;
+    "LastUpdated" = (Get-Date)
+}
+
 $WD = Get-Location
 
-$inventoryExists = Test-Path ".\InventoryList.json"
+$inventoryExists = Test-Path "\InventoryList.json"
 
 if($inventoryExists){
     Write-Host "Inventory Liste wurde gefunden."
@@ -10,9 +18,11 @@ if($inventoryExists){
     $createInventory = Read-Host "Inventory Liste nicht gefunden. Soll eine neue erstellt werden? (J/N)"
     if($createInventory -eq "J"){
     New-Item -Path $WD -ItemType "File" -Name "InventoryList.json"
+    $inventoryObject | ConvertTo-Json | Set-Content -Path ./InventoryList.json
     Write-Host "InventoryList.json was created at" $WD
 } elseif ($createInventory -eq "j") {
     New-Item -Path $WD -ItemType "File" -Name "InventoryList.json"
+    $inventoryObject | ConvertTo-Json | Set-Content -Path ./InventoryList.json
     Write-Host "InventoryList.json was created at" $WD}
     else {
         Write-Host "No Inventory List was found"
