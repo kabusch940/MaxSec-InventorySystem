@@ -1,8 +1,31 @@
-## Inveotry System ArrayLists
+## Check JSON Inventory List
 
-$dbServers              = [System.Collections.ArrayList]@("databaseServer1", "databaseServer2", "databaseServer3")
-$fileServers            = [System.Collections.ArrayList]@("fileserver1", "fileserver2", "fileserver3")
-$DCs                    = [System.Collections.ArrayList]@("DC1")
+$WD = Get-Location
+
+$inventoryExists = Test-Path ".\InventoryList.json"
+
+if($inventoryExists){
+    Write-Host "Inventory Liste wurde gefunden."
+} else{
+    $createInventory = Read-Host "Inventory Liste nicht gefunden. Soll eine neue erstellt werden? (J/N)"
+    if($createInventory -eq "J"){
+    New-Item -Path $WD -ItemType "File" -Name "InventoryList.json"
+    Write-Host "InventoryList.json was created at" $WD
+} elseif ($createInventory -eq "j") {
+    New-Item -Path $WD -ItemType "File" -Name "InventoryList.json"
+    Write-Host "InventoryList.json was created at" $WD}
+    else {
+        Write-Host "No Inventory List was found"
+    }
+}
+
+
+
+## Inventory System ArrayLists
+
+$dbServers              = [System.Collections.ArrayList]@()
+$fileServers            = [System.Collections.ArrayList]@()
+$DCs                    = [System.Collections.ArrayList]@()
 $unclassifiedServers    = [System.Collections.ArrayList]@()
 
 
